@@ -41,11 +41,11 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-    public function getPosts(): array
+    public function getPosts($hydrateMod = AbstractQuery::HYDRATE_OBJECT): array
     {
         return $this->createQueryBuilder('p')
             ->getQuery()
-            ->getResult(AbstractQuery::HYDRATE_ARRAY);
+            ->getResult($hydrateMod);
     }
 
 //    /**

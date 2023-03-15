@@ -1,0 +1,44 @@
+{% extends 'standart/index.html.twig' %}
+
+{% block title %}Post List Controller!{% endblock %}
+
+{% block main %}
+
+    <div class="expertise">
+        <h2>Post List!</h2>
+        <p>Lorem ipsum dolor sit amet proin gravida nibh vel velit</p>
+
+        <hr>
+
+        <div class="card-header">
+            <a class="btn create_post" href="{{ path('add_post') }}">
+                Create New Post
+            </a>
+        </div>
+
+        <div class="expertise-items">
+            {% for post in posts %}
+                <div class="expertise-item">
+                    <img src="{{ asset('img/image-dark-gray.png') }}" alt="icon">
+                    <div class="content">
+                        <h3><a href="{{ path('single_post', {id: post.id}) }}">{{ post.title }}</a></h3>
+                        <p>{{ post.description }}</p>
+                        <div class="form_actions">
+                            <form method="post" action="{{ path('post_delete', {'id': post.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+
+                                <a class="btn btn-outline-info read_more" href="{{ path('single_post', {'id': post.id}) }}">Show</a>
+
+                                <a class="btn btn-outline-success edit" href="{{ path('post_edit', {'id': post.id}) }}">Edit</a>
+
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+
+                                <button class="btn btn-outline-danger delete">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

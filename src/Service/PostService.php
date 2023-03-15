@@ -5,6 +5,7 @@ use App\Entity\Post;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\AbstractQuery;
 use Symfony\Component\HttpFoundation\Request;
 
 class PostService
@@ -14,10 +15,14 @@ class PostService
 
     }
 
-    public function getPosts(): array
+    public function getPosts($hydrateMod = AbstractQuery::HYDRATE_OBJECT): array
     {
-//        dd($this->postRepository->getPosts());
-        return $this->postRepository->getPosts();
+        return $this->postRepository->getPosts($hydrateMod);
+    }
+
+    public function getPostById(int $id): ?Post
+    {
+        return $this->postRepository->find($id);
     }
 
     public function createPost($postData): array
@@ -31,9 +36,23 @@ class PostService
         $post->setUpdatedAt(new \DateTime());
         $post->setUser($this->userRepository->find(1));
 
-        $this->postRepository->save($post, true);
+        $this->savePost($post, true);
 
         return $postData;
     }
+    public function makeNewPost(): Post
+    {
+        return (new Post())->setUser($this->userRepository->find(1));
+    }
+    public function savePost(Post $post, $persist = false): void
+    {
+        $this->postRepository->save($post, $persist);
+    }
 
+    public function deletePost($id): void
+    {
+        $post = $this->postRepository->find($id);
+
+        $this->postRepository->remove($post, true);
+    }
 }

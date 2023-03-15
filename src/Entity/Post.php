@@ -33,6 +33,12 @@ class Post
     #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private User $user;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
     public function getId(): int
     {
         return $this->id;

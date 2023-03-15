@@ -1,0 +1,18 @@
+{% extends 'standart/index.html.twig' %}
+
+{% block title %}Single Post Controller!{% endblock %}
+
+{% block main %}
+
+    <div class="single_header">
+        <a class="btn back" href="{{ path('list_posts') }}">
+            Back to list
+        </a>
+    </div>
+
+    <div class="single_wrapper">
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.description }}</p>
+    </div>
+
+{% endblock %}
